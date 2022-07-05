@@ -51,7 +51,7 @@ func ServerListen() {
 	})
 	fmt.Println("==========================回调开始===========================")
 	addr := fmt.Sprintf("0.0.0.0:%s", Port)
-	fmt.Printf("=======================请使用该回调地址发起请求：%s =============================\n", addr)
+	fmt.Printf("=======================请使用该回调地址发起请求：%s/call =============================\n", addr)
 	err := http.ListenAndServe(addr, mux)
 	if err != nil {
 		return
