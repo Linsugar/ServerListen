@@ -34,8 +34,13 @@ func ServerListen() {
 	mux := http.NewServeMux()
 	var c = make(chan string, 1)
 	var mag Data.MagiciDemo
-	fs := http.FileServer(http.Dir("./videos"))
-	mux.Handle("/", http.StripPrefix("/videos", fs))
+	fs := http.FileServer(http.Dir("assets/"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	mux.HandleFunc("/", func(w http.ResponseWriter, request *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+		w.Header().Set("content-type", "application/json")             //返回数据格式是json
+	})
 	mux.HandleFunc("/call", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("开始回调")
 		all, err := io.ReadAll(r.Body)
